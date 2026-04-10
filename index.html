@@ -3,57 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentification - L'Institut Agro</title>
+    <title>Authentification Centralisée - L'Institut Agro</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; width: 380px; border-top: 5px solid #005a9c; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 30px; border-radius: 4px; }
-        .logo-area { text-align: center; margin-bottom: 20px; }
-        .logo-area h1 { font-size: 1.2em; color: #333; margin: 0; }
-        
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
-        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
-        
-        .btn-submit { width: 100%; padding: 12px; background-color: #005a9c; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; }
-        .btn-submit:hover { background-color: #004070; }
-        
-        .alert { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; font-size: 0.8em; margin-top: 20px; color: #856404; }
-        .footer { text-align: center; margin-top: 20px; font-size: 0.8em; color: #005a9c; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: #f4f7f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-box { background: white; width: 100%; max-width: 400px; border: 1px solid #d3d9de; border-top: 6px solid #005a9c; border-radius: 4px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 35px; box-sizing: border-box; }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 1.3em; color: #333; margin: 0; font-weight: 600; }
+        .header p { font-size: 0.9em; color: #666; margin-top: 5px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.9em; color: #444; margin-bottom: 8px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; font-size: 1em; }
+        input:focus { border-color: #005a9c; outline: none; box-shadow: 0 0 4px rgba(0,90,156,0.2); }
+        .btn-login { width: 100%; padding: 14px; background-color: #005a9c; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 1em; font-weight: bold; text-transform: uppercase; }
+        .btn-login:hover { background-color: #004070; }
+        .btn-login:disabled { background-color: #ccc; cursor: not-allowed; }
+        .notice { margin-top: 25px; padding: 12px; background-color: #fcf8e3; border-left: 4px solid #8a6d3b; color: #8a6d3b; font-size: 0.85em; }
+        .footer { margin-top: 25px; text-align: center; font-size: 0.8em; color: #005a9c; }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <div class="logo-area">
-        <h1>L'Institut Agro Montpellier</h1>
-        <p style="font-size: 0.8em; color: #666;">Service d'authentification (CAS)</p>
+<div class="login-box">
+    <div class="header">
+        <h1>L'Institut Agro</h1>
+        <p>Service d'authentification centralisé</p>
     </div>
 
-    <form id="loginForm">
-        <label>Identifiant</label>
-        <input type="text" id="user" required placeholder="ex: jdupont">
+    <form id="phishForm">
+        <div class="form-group">
+            <label for="username">Identifiant numérique</label>
+            <input type="text" id="username" name="username" placeholder="ex: jdupont" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="password" required>
+        </div>
         
-        <label>Mot de passe</label>
-        <input type="password" id="pass" required>
-        
-        <button type="submit" class="btn-submit" id="btn">SE CONNECTER</button>
+        <button type="submit" id="submitBtn" class="btn-login">Connexion</button>
     </form>
 
-    <div class="alert">
-        <strong>Sécurité :</strong> Vérifiez que l'URL commence par <b>https://partage.supagro.fr</b> avant de saisir vos accès.
+    <div class="notice">
+        <strong>Attention :</strong> Vérifiez toujours que l'URL affichée par votre navigateur est bien celle de l'établissement.
     </div>
 
     <div class="footer">
-        <a href="#" style="color: #005a9c; text-decoration: none;">Aide et support</a>
+        <a href="#" style="color:#005a9c; text-decoration:none;">Besoin d'aide ?</a>
     </div>
 </div>
 
 <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('phishForm').addEventListener('submit', function(e) {
+        // 1. Bloquer l'envoi réel du formulaire
         e.preventDefault();
         
-        const user = document.getElementById('user').value;
-        const pass = document.getElementById('pass').value;
-        const btn = document.getElementById('btn');
+        // 2. Récupérer les données (pour la démo console)
+        const user = document.getElementById('username').value;
+        const pass = document.getElementById('password').value;
+        const btn = document.getElementById('submitBtn');
 
-        // PREUVE DE CAPTURE (Affiché dans la console F12)
-        console.warn("ALERTE SÉCURITÉ :
+        // 3. Affichage dans la console (ton PC de démo)
+        console.warn("--- DONNÉES INTERCEPTÉES ---");
+        console.log("Utilisateur : " + user);
+        console.log("Mot de passe : " + pass);
+
+        // 4. Feedback visuel sur le bouton
+        btn.disabled = true;
+        btn.textContent = "Vérification...";
+
+        // 5. Redirection forcée vers la page de prévention
+        // Utilisation de location.href pour une navigation propre depuis GitHub Pages
+        setTimeout(function() {
+            window.location.href = "https://www.cybermalveillance.gouv.fr/tous-nos-contenus/actualites/quishing-hameconnage-qr-code";
+        }, 1000);
+    });
+</script>
+
+</body>
+</html>
